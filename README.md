@@ -296,6 +296,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Built with ❤️ for farmers in Sub-Saharan Africa**
 
+### 🎯 **Ready to revolutionize agricultural insurance?** 
+**[⭐ Star now](https://github.com/stopitmane/task-hacker-earth) • [🍴 Fork](https://github.com/stopitmane/task-hacker-earth/fork) • [📢 Share](https://twitter.com/intent/tweet?text=Check%20out%20AgriGuard%20-%20Agricultural%20Insurance%20Platform%20using%20Nokia%20CAMARA%20APIs!&url=https://github.com/stopitmane/task-hacker-earth)**
+
 [🚀 **Try Live Demo**](https://demo.agriguard.io) | [📖 **Read Docs**](docs/) | [🤝 **Contribute**](CONTRIBUTING.md)
 
 </div>
