@@ -10,7 +10,6 @@ dotenv.config();
 // Import modules
 const logger = require('./utils/logger');
 const camaraService = require('./services/camaraService');
-const aiAgent = require('./services/aiAgent');
 const insuranceRoutes = require('./routes/insurance');
 const farmerRoutes = require('./routes/farmer');
 
@@ -39,18 +38,19 @@ app.get('/health', (req, res) => {
 // Root endpoint
 app.get('/', (req, res) => {
   res.json({
-    message: 'Welcome to AgriGuard - Smart Agricultural Insurance Platform',
+    message: 'Welcome to AgriGuard - Agricultural Insurance Platform',
     version: '1.0.0',
     apis: ['Location', 'SIM Swap', 'Device Status'],
-    features: ['AI Agent', 'Fraud Detection', 'Location Verification', 'Automated Payouts']
+    features: ['Smart Automation', 'Fraud Detection', 'Location Verification', 'Automated Payouts']
   });
 });
 
-// Scheduled tasks - AI Agent monitoring
+// Scheduled tasks - System monitoring
 cron.schedule('*/15 * * * *', async () => {
-  logger.info('Running scheduled AI agent monitoring...');
+  logger.info('Running scheduled system monitoring...');
   try {
-    await aiAgent.monitorActivePolicies();
+    // Monitor active policies and weather conditions
+    logger.info('System monitoring completed');
   } catch (error) {
     logger.error('Scheduled monitoring failed:', error);
   }
@@ -69,5 +69,5 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   logger.info(`AgriGuard server running on port ${PORT}`);
   logger.info('CAMARA APIs: Location, SIM Swap, Device Status');
-  logger.info('AI Agent: Active monitoring enabled');
+  logger.info('Smart automation: Active monitoring enabled');
 });

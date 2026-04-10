@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const logger = require('../utils/logger');
 const camaraService = require('../services/camaraService');
-const aiAgent = require('../services/aiAgent');
+const processingEngine = require('../services/processingEngine');
 const weatherService = require('../services/weatherService');
 
 // Create new insurance policy
@@ -53,8 +53,8 @@ router.post('/policy', async (req, res) => {
       securityVerification: securityCheck
     };
 
-    // Register with AI agent for monitoring
-    aiAgent.registerPolicy(farmerId, policy);
+    // Register with processing engine for monitoring
+    processingEngine.registerPolicy(farmerId, policy);
 
     logger.info(`Insurance policy created for farmer ${farmerId}`);
 
@@ -62,7 +62,7 @@ router.post('/policy', async (req, res) => {
       message: 'Insurance policy created successfully',
       policyId: `POL-${farmerId}-${Date.now()}`,
       policy,
-      aiMonitoring: true
+      systemMonitoring: true
     });
 
   } catch (error) {
@@ -94,26 +94,26 @@ router.post('/claim', async (req, res) => {
 
     logger.info(`Processing ${claimType} claim for farmer ${farmerId}`);
 
-    // AI agent assessment
+    // Processing engine assessment
     const claimData = {
       description,
       estimatedLoss,
       incidentDate: incidentDate || new Date().toISOString()
     };
 
-    const aiDecision = await aiAgent.assessClaim(farmerId, claimType, claimData);
+    const decision = await processingEngine.processClaim(farmerId, claimType, claimData);
 
     // Log the decision
-    logger.info(`Claim ${aiDecision.claimId}: ${aiDecision.approved ? 'APPROVED' : 'REJECTED'}`);
+    logger.info(`Claim ${decision.claimId}: ${decision.approved ? 'APPROVED' : 'REJECTED'}`);
 
     res.json({
-      claimId: aiDecision.claimId,
-      status: aiDecision.approved ? 'approved' : 'rejected',
-      confidence: aiDecision.confidence,
-      payoutAmount: aiDecision.payoutAmount,
-      reasoning: aiDecision.reasoning,
-      processedAt: aiDecision.processedAt,
-      aiProcessed: true
+      claimId: decision.claimId,
+      status: decision.approved ? 'approved' : 'rejected',
+      confidence: decision.confidence,
+      payoutAmount: decision.payoutAmount,
+      reasoning: decision.reasoning,
+      processedAt: decision.processedAt,
+      systemProcessed: true
     });
 
   } catch (error) {
@@ -131,7 +131,7 @@ router.get('/policy/:farmerId', async (req, res) => {
     const { farmerId } = req.params;
     
     // In production, this would fetch from database
-    const policy = aiAgent.activePolicies.get(farmerId);
+    const policy = processingEngine.activePolicies.get(farmerId);
     
     if (!policy) {
       return res.status(404).json({ error: 'Policy not found' });
@@ -146,7 +146,7 @@ router.get('/policy/:farmerId', async (req, res) => {
     res.json({
       policy,
       currentWeather,
-      aiMonitoring: true,
+      systemMonitoring: true,
       lastUpdated: new Date().toISOString()
     });
 
@@ -259,15 +259,15 @@ router.get('/weather/:lat/:lon', async (req, res) => {
   }
 });
 
-// Get AI agent statistics
-router.get('/ai-stats', (req, res) => {
+// Get system statistics
+router.get('/stats', (req, res) => {
   try {
-    const stats = aiAgent.getAgentStats();
+    const stats = processingEngine.getSystemStats();
     res.json(stats);
   } catch (error) {
-    logger.error('AI stats fetch failed:', error.message);
+    logger.error('System stats fetch failed:', error.message);
     res.status(500).json({ 
-      error: 'AI stats fetch failed',
+      error: 'System stats fetch failed',
       message: error.message 
     });
   }

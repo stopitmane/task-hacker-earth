@@ -1,6 +1,6 @@
 # 🏆 Nokia Network-as-Code Hackathon Submission
 
-## Project: AgriGuard - AI-Powered Agricultural Insurance Platform
+## Project: AgriGuard - Agricultural Insurance Platform
 
 ### 📋 Submission Checklist
 
@@ -14,7 +14,7 @@
 - **✅ Advanced Connectivity Device**: Mobile-first design supporting feature phones and smartphones
 
 #### ✅ Bonus Tasks
-- **✅ Agentic AI Concepts**: Intelligent AI agent that orchestrates multiple APIs
+- **✅ Smart Automation**: Intelligent orchestration of multiple APIs
 - **✅ Automated Workflows**: End-to-end claim processing without human intervention
 - **✅ Smart Decision-Making**: Multi-factor risk assessment and fraud prevention
 
@@ -48,10 +48,10 @@
    - Adapts communication methods based on device capabilities
    - Optimizes user experience for rural connectivity
 
-#### Agentic AI Engine
+#### Processing Engine
 ```javascript
-// AI Agent orchestrates multiple APIs for intelligent decisions
-const aiDecision = await aiAgent.assessClaim(farmerId, claimType, claimData);
+// System orchestrates multiple APIs for intelligent decisions
+const decision = await processingEngine.processClaim(farmerId, claimType, claimData);
 
 // Multi-API verification pipeline
 const verification = await Promise.all([
@@ -203,7 +203,7 @@ POST /api/insurance/claim
 ### 🏆 Awards Targeting
 
 - 🥇 **Grand Prize**: Most innovative use of Nokia Network-as-Code
-- 🤖 **Best AI Integration**: Agentic AI orchestrating multiple APIs
+- 🔧 **Best Automation**: Smart orchestration of multiple APIs
 - 🌍 **Social Impact Award**: Highest potential for positive change
 - 🔧 **Technical Excellence**: Most comprehensive CAMARA API usage
 

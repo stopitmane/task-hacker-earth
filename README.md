@@ -1,4 +1,4 @@
-# 🌾 AgriGuard - AI-Powered Agricultural Insurance Platform
+# 🌾 AgriGuard - Agricultural Insurance Platform
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org/)
@@ -6,7 +6,7 @@
 [![CAMARA APIs](https://img.shields.io/badge/CAMARA-APIs-orange.svg)](https://camaraproject.org/)
 
 > **🏆 Nokia Network-as-Code Hackathon Submission**  
-> Revolutionizing agricultural insurance in Sub-Saharan Africa with AI and network intelligence
+> Revolutionizing agricultural insurance in Sub-Saharan Africa with network intelligence
 
 ## 🚀 Live Demo
 
@@ -29,13 +29,13 @@ node demo/test-apis.js  # Run complete demo
 
 ## 💡 Our Solution
 
-**AgriGuard** combines **Nokia Network-as-Code CAMARA APIs** with **Agentic AI** to deliver:
+**AgriGuard** combines **Nokia Network-as-Code CAMARA APIs** with **intelligent automation** to deliver:
 
-### 🤖 **Intelligent AI Agent**
-- **Automated claim processing** in under 60 seconds
-- **Multi-API orchestration** for comprehensive verification
-- **Proactive monitoring** for weather-based automatic payouts
-- **Fraud detection** with 95%+ accuracy
+### 🔧 **Smart Automation**
+- **Automated claim processing** with network verification
+- **Multi-API integration** for comprehensive validation
+- **Real-time monitoring** for weather-based claims
+- **Fraud detection** with network intelligence
 
 ### 📡 **Nokia CAMARA APIs Integration**
 - **🗺️ Location API**: GPS verification of farm boundaries
@@ -44,8 +44,8 @@ node demo/test-apis.js  # Run complete demo
 
 ### ⚡ **Key Features**
 - ✅ **Instant Verification**: Location + Security + Weather in one call
-- 💰 **Automated Payouts**: AI decides and transfers micro-insurance
-- 🛡️ **Fraud Prevention**: SIM swap detection blocks 99% of fraud attempts
+- 💰 **Automated Payouts**: System decides and processes micro-insurance
+- 🛡️ **Fraud Prevention**: SIM swap detection blocks fraud attempts
 - 📱 **Mobile-First**: Works on feature phones via USSD
 - 🌍 **Offline Capable**: Queued processing for poor connectivity areas
 
@@ -54,7 +54,7 @@ node demo/test-apis.js  # Run complete demo
 ```mermaid
 graph TB
     A[Farmer Mobile App] --> B[AgriGuard API]
-    B --> C[AI Agent Engine]
+    B --> C[Processing Engine]
     C --> D[Nokia Network-as-Code]
     C --> E[Weather APIs]
     C --> F[Payment Gateway]
@@ -79,12 +79,12 @@ const claim = await submitClaim({
   description: "No rainfall for 3 weeks, crops wilting"
 });
 
-// AI Agent automatically:
+// System automatically:
 // ✅ Verifies farmer location (GPS within 500m of registered farm)
 // ✅ Checks weather data (confirms 21 dry days < 5mm precipitation)  
 // ✅ Validates no SIM swap (account secure)
 // ✅ Confirms device connectivity (reliable for payout)
-// 💰 Approves payout: KES 40,000 (95% confidence)
+// 💰 Approves payout: KES 40,000 (high confidence)
 ```
 
 ### Scenario 2: Fraud Prevention
@@ -95,7 +95,7 @@ const fraudAttempt = await submitClaim({
   claimType: "flood"
 });
 
-// AI Agent detects:
+// System detects:
 // ❌ SIM swap 2 hours ago (HIGH RISK)
 // ❌ Location 50km from registered farm  
 // ❌ No weather evidence of flooding
@@ -142,7 +142,7 @@ const deviceStatus = await camaraService.checkDeviceStatus(phoneNumber);
 // Returns: connection type, reliability, roaming status
 ```
 
-### AI Agent Decision Engine
+### Processing Engine Decision Logic
 ```javascript
 // Multi-factor risk assessment
 const riskScore = calculateRiskScore({
@@ -209,8 +209,8 @@ NODE_ENV=development
 - `GET /api/farmer/profile/:phone` - Get farmer status
 - `POST /api/farmer/emergency-verify` - Emergency verification
 
-### AI & Analytics
-- `GET /api/insurance/ai-stats` - AI agent statistics
+### Processing & Analytics
+- `GET /api/insurance/stats` - System statistics
 - `GET /api/insurance/weather/:lat/:lon` - Weather analysis
 
 [📖 **Full API Documentation**](docs/API_DOCUMENTATION.md)
@@ -227,7 +227,7 @@ NODE_ENV=development
 - **✅ Advanced connectivity**: Mobile-first design for rural areas
 
 ### ✅ Bonus Tasks
-- **✅ Agentic AI**: Intelligent orchestration of multiple APIs
+- **✅ Smart Automation**: Intelligent orchestration of multiple APIs
 - **✅ Automated workflows**: End-to-end claim processing
 - **✅ Smart decision-making**: Risk assessment and fraud prevention
 

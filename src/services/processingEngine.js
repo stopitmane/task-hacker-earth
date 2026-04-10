@@ -2,7 +2,7 @@ const logger = require('../utils/logger');
 const camaraService = require('./camaraService');
 const weatherService = require('./weatherService');
 
-class AIAgent {
+class ProcessingEngine {
   constructor() {
     this.activePolicies = new Map(); // In production, this would be a database
     this.claimThresholds = {
@@ -12,10 +12,10 @@ class AIAgent {
     };
   }
 
-  // Main AI decision-making engine
-  async assessClaim(farmerId, claimType, claimData) {
+  // Main claim processing engine
+  async processClaim(farmerId, claimType, claimData) {
     try {
-      logger.info(`AI Agent assessing ${claimType} claim for farmer ${farmerId}`);
+      logger.info(`Processing ${claimType} claim for farmer ${farmerId}`);
       
       const policy = this.activePolicies.get(farmerId);
       if (!policy) {
@@ -25,15 +25,15 @@ class AIAgent {
       // Perform comprehensive verification
       const verification = await this.performVerification(policy, claimData);
       
-      // AI decision logic
+      // Make decision based on verification results
       const decision = await this.makeDecision(claimType, verification, policy);
       
       // Log decision for audit trail
-      logger.info(`AI Decision for ${farmerId}: ${decision.approved ? 'APPROVED' : 'REJECTED'} - Confidence: ${decision.confidence}%`);
+      logger.info(`Decision for ${farmerId}: ${decision.approved ? 'APPROVED' : 'REJECTED'} - Confidence: ${decision.confidence}%`);
       
       return decision;
     } catch (error) {
-      logger.error('AI claim assessment failed:', error.message);
+      logger.error('Claim processing failed:', error.message);
       throw error;
     }
   }
@@ -61,7 +61,7 @@ class AIAgent {
     }
   }
 
-  // AI decision-making algorithm
+  // Decision-making algorithm
   async makeDecision(claimType, verification, policy) {
     let confidence = 0;
     let approved = false;
@@ -95,7 +95,7 @@ class AIAgent {
       payoutAmount: approved ? this.calculatePayout(policy, claimType, confidence) : 0,
       claimId: this.generateClaimId(),
       processedAt: new Date().toISOString(),
-      aiVersion: '1.0.0'
+      systemVersion: '1.0.0'
     };
   }
 
@@ -196,7 +196,7 @@ class AIAgent {
 
   // Monitor active policies for automatic claim detection
   async monitorActivePolicies() {
-    logger.info('AI Agent monitoring active policies...');
+    logger.info('System monitoring active policies...');
     
     for (const [farmerId, policy] of this.activePolicies) {
       try {
@@ -244,8 +244,8 @@ class AIAgent {
     return `AG-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
   }
 
-  // Get AI agent statistics
-  getAgentStats() {
+  // Get system statistics
+  getSystemStats() {
     return {
       activePolicies: this.activePolicies.size,
       claimThresholds: this.claimThresholds,
@@ -255,4 +255,4 @@ class AIAgent {
   }
 }
 
-module.exports = new AIAgent();
+module.exports = new ProcessingEngine();

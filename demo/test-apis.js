@@ -4,7 +4,7 @@
  * AgriGuard API Demo Script
  * 
  * This script demonstrates the key features of the AgriGuard platform
- * including CAMARA API integration and AI-powered claim processing.
+ * including CAMARA API integration and automated claim processing.
  */
 
 const axios = require('axios');
@@ -41,11 +41,11 @@ class AgriGuardDemo {
       // 5. Submit and process claims
       await this.demonstrateClaimProcessing(farmer.farmer.id);
       
-      // 6. Show AI agent statistics
-      await this.showAIStats();
+      // 6. Show system statistics
+      await this.showSystemStats();
       
       console.log('\n✅ Demo completed successfully!');
-      console.log('🤖 AI Agent is now monitoring policies for automatic claim detection.');
+      console.log('🔧 System is now monitoring policies for automatic claim detection.');
       
     } catch (error) {
       console.error('❌ Demo failed:', error.message);
@@ -101,7 +101,7 @@ class AgriGuardDemo {
     console.log('✅ Policy created:', response.data.policyId);
     console.log('💰 Coverage amount: KES', response.data.policy.coverageAmount);
     console.log('🛡️ Coverage types:', response.data.policy.coverageType.join(', '));
-    console.log('🤖 AI monitoring:', response.data.aiMonitoring);
+    console.log('🔧 System monitoring:', response.data.systemMonitoring);
     
     return response.data;
   }
@@ -134,7 +134,7 @@ class AgriGuardDemo {
   }
 
   async demonstrateClaimProcessing(farmerId) {
-    console.log('\n5. 🤖 AI-Powered Claim Processing...');
+    console.log('\n5. 🔧 Automated Claim Processing...');
     
     // Drought claim
     console.log('\n🌵 Processing drought claim...');
@@ -148,9 +148,9 @@ class AgriGuardDemo {
     
     console.log('📋 Claim ID:', droughtClaim.data.claimId);
     console.log('✅ Status:', droughtClaim.data.status);
-    console.log('🎯 AI Confidence:', droughtClaim.data.confidence + '%');
+    console.log('🎯 Confidence:', droughtClaim.data.confidence + '%');
     console.log('💰 Payout amount: KES', droughtClaim.data.payoutAmount);
-    console.log('🧠 AI Reasoning:', droughtClaim.data.reasoning.join(', '));
+    console.log('🧠 Reasoning:', droughtClaim.data.reasoning.join(', '));
     
     // Flood claim
     console.log('\n🌊 Processing flood claim...');
@@ -164,17 +164,17 @@ class AgriGuardDemo {
     
     console.log('📋 Claim ID:', floodClaim.data.claimId);
     console.log('✅ Status:', floodClaim.data.status);
-    console.log('🎯 AI Confidence:', floodClaim.data.confidence + '%');
+    console.log('🎯 Confidence:', floodClaim.data.confidence + '%');
     console.log('💰 Payout amount: KES', floodClaim.data.payoutAmount);
   }
 
-  async showAIStats() {
-    console.log('\n6. 📊 AI Agent Statistics...');
+  async showSystemStats() {
+    console.log('\n6. 📊 System Statistics...');
     
-    const statsResponse = await this.client.get('/api/insurance/ai-stats');
+    const statsResponse = await this.client.get('/api/insurance/stats');
     
-    console.log('🤖 Active policies monitored:', statsResponse.data.activePolicies);
-    console.log('🎯 AI capabilities:', statsResponse.data.capabilities.join(', '));
+    console.log('🔧 Active policies monitored:', statsResponse.data.activePolicies);
+    console.log('🎯 System capabilities:', statsResponse.data.capabilities.join(', '));
     console.log('📏 Claim thresholds:', JSON.stringify(statsResponse.data.claimThresholds, null, 2));
   }
 

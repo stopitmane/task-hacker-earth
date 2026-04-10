@@ -1,7 +1,7 @@
 # AgriGuard API Documentation
 
 ## Overview
-AgriGuard is an AI-powered agricultural insurance platform that leverages Nokia Network-as-Code CAMARA APIs to provide automated, fraud-resistant micro-insurance for farmers in Sub-Saharan Africa.
+AgriGuard is an automated agricultural insurance platform that leverages Nokia Network-as-Code CAMARA APIs to provide automated, fraud-resistant micro-insurance for farmers in Sub-Saharan Africa.
 
 ## Base URL
 ```
@@ -90,7 +90,7 @@ POST /api/insurance/claim
   "payoutAmount": "number",
   "reasoning": ["string"],
   "processedAt": "ISO string",
-  "aiProcessed": true
+  "systemProcessed": true
 }
 ```
 
@@ -187,10 +187,10 @@ POST /api/farmer/emergency-verify
 }
 ```
 
-## AI Agent Features
+## Processing Engine Features
 
 ### Automated Claim Processing
-The AI agent evaluates claims using:
+The processing engine evaluates claims using:
 - **Location verification** (40% weight)
 - **Weather pattern analysis** (50% weight)
 - **Policy compliance** (10% weight)
@@ -203,7 +203,7 @@ Risk scores are calculated based on:
 - Historical weather patterns
 
 ### Automatic Monitoring
-The AI agent continuously monitors:
+The system continuously monitors:
 - Active insurance policies
 - Weather conditions for covered areas
 - Network connectivity status
