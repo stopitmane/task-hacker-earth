@@ -5,8 +5,18 @@ const camaraService = require('../services/camaraService');
 const processingEngine = require('../services/processingEngine');
 const weatherService = require('../services/weatherService');
 
-// Create new insurance policy
-router.post('/policy', async (req, res) => {
+// Import security middleware
+const { authenticateJWT, authenticateApiKey, authorize, requirePermission } = require('../middleware/auth');
+const { claimRateLimit, camaraRateLimit } = require('../middleware/rateLimiting');
+const { validationSchemas, handleValidationErrors } = require('../middleware/security');
+
+// Create new insurance policy (requires authentication)
+router.post('/policy', 
+  authenticateJWT, 
+  authorize('farmer', 'admin'), 
+  validationSchemas.policyCreation, 
+  handleValidationErrors, 
+  async (req, res) => {
   try {
     const { 
       farmerId, 
@@ -56,7 +66,12 @@ router.post('/policy', async (req, res) => {
     // Register with processing engine for monitoring
     processingEngine.registerPolicy(farmerId, policy);
 
-    logger.info(`Insurance policy created for farmer ${farmerId}`);
+    logger.business(`Insurance policy created for farmer ${farmerId}`, {
+      userId: req.user.id,
+      policyId: `POL-${farmerId}-${Date.now()}`,
+      coverageAmount,
+      ip: req.ip
+    });
 
     res.status(201).json({
       message: 'Insurance policy created successfully',
@@ -74,8 +89,14 @@ router.post('/policy', async (req, res) => {
   }
 });
 
-// Submit insurance claim
-router.post('/claim', async (req, res) => {
+// Submit insurance claim (requires authentication and rate limiting)
+router.post('/claim', 
+  authenticateJWT, 
+  authorize('farmer', 'admin'),
+  claimRateLimit,
+  validationSchemas.claimSubmission, 
+  handleValidationErrors, 
+  async (req, res) => {
   try {
     const { 
       farmerId, 
@@ -104,7 +125,14 @@ router.post('/claim', async (req, res) => {
     const decision = await processingEngine.processClaim(farmerId, claimType, claimData);
 
     // Log the decision
-    logger.info(`Claim ${decision.claimId}: ${decision.approved ? 'APPROVED' : 'REJECTED'}`);
+    logger.business(`Claim ${decision.claimId}: ${decision.approved ? 'APPROVED' : 'REJECTED'}`, {
+      userId: req.user.id,
+      farmerId,
+      claimType,
+      payoutAmount: decision.payoutAmount,
+      confidence: decision.confidence,
+      ip: req.ip
+    });
 
     res.json({
       claimId: decision.claimId,
@@ -159,8 +187,23 @@ router.get('/policy/:farmerId', async (req, res) => {
   }
 });
 
-// Verify farmer location (for mobile app)
-router.post('/verify-location', async (req, res) => {
+// Verify farmer location (requires API key or JWT)
+router.post('/verify-location', 
+  (req, res, next) => {
+    // Allow either JWT or API key authentication
+    if (req.headers.authorization) {
+      return authenticateJWT(req, res, next);
+    } else if (req.headers['x-api-key']) {
+      return authenticateApiKey(req, res, next);
+    } else {
+      return res.status(401).json({ error: 'Authentication required' });
+    }
+  },
+  camaraRateLimit,
+  requirePermission('camara:location'),
+  validationSchemas.locationVerification,
+  handleValidationErrors,
+  async (req, res) => {
   try {
     const { phoneNumber, expectedLat, expectedLon, radius } = req.body;
 
@@ -194,8 +237,20 @@ router.post('/verify-location', async (req, res) => {
   }
 });
 
-// Check SIM swap status
-router.post('/check-security', async (req, res) => {
+// Check SIM swap status (requires API key or JWT)
+router.post('/check-security', 
+  (req, res, next) => {
+    if (req.headers.authorization) {
+      return authenticateJWT(req, res, next);
+    } else if (req.headers['x-api-key']) {
+      return authenticateApiKey(req, res, next);
+    } else {
+      return res.status(401).json({ error: 'Authentication required' });
+    }
+  },
+  camaraRateLimit,
+  requirePermission('camara:sim-swap'),
+  async (req, res) => {
   try {
     const { phoneNumber } = req.body;
 
@@ -259,8 +314,8 @@ router.get('/weather/:lat/:lon', async (req, res) => {
   }
 });
 
-// Get system statistics
-router.get('/stats', (req, res) => {
+// Get system statistics (admin only)
+router.get('/stats', authenticateJWT, authorize('admin'), (req, res) => {
   try {
     const stats = processingEngine.getSystemStats();
     res.json(stats);

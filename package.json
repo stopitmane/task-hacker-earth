@@ -8,6 +8,8 @@
     "dev": "nodemon src/index.js",
     "test": "echo \"No tests specified\" && exit 0",
     "demo": "node demo/test-apis.js",
+    "demo:mock": "node demo/mock-demo.js",
+    "demo:security": "node demo/security-demo.js",
     "lint": "echo \"No linting configured\" && exit 0",
     "build": "echo \"No build step required\" && exit 0",
     "docker:build": "docker build -t agriguard .",
@@ -23,7 +25,16 @@
     "cors": "^2.8.5",
     "helmet": "^7.1.0",
     "winston": "^3.11.0",
-    "node-cron": "^3.0.3"
+    "node-cron": "^3.0.3",
+    "jsonwebtoken": "^9.0.2",
+    "bcryptjs": "^2.4.3",
+    "express-rate-limit": "^7.1.5",
+    "express-slow-down": "^2.0.1",
+    "express-validator": "^7.0.1",
+    "morgan": "^1.10.0",
+    "uuid": "^9.0.1",
+    "express-mongo-sanitize": "^2.2.0",
+    "xss-clean": "^0.1.4"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
